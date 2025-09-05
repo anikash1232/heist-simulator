@@ -359,12 +359,12 @@ This exercise demonstrates how powerful — and dangerous — reflection can be 
 Implement the following class and method:
 
 ```java
-package com.comp301.ic03heist;
+package com.comp301.a01heist;
 
 public class HackerTool {
-  public static void tryBreakVault(Vault vault) {
-    // Use reflection to access the Vault's private "secret" field
-  }
+    public static void tryBreakVault(Vault vault) {
+        // Use reflection to access the Vault's private "secret" field
+    }
 }
 ```
 
