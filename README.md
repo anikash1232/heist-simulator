@@ -217,7 +217,7 @@ Your goal is to write this class in a way that enforces encapsulation and simula
 
 You will need the following **private fields**:
 
-- A `String` called `secret`, initialized to `"TOP_SECRET_LAUNCH_CODES"`.
+- A `String` called `secret`.
   - This is the secret being protected.
   - It should never be returned, printed, or exposed in any way.
 
@@ -230,6 +230,13 @@ You will need the following **private fields**:
   - Once too many failures occur, the vault enters permanent lockdown.
 
 All fields must be private. `secret` should also be `final` since it never changes.
+
+### Constructors
+
+You should have two constructors, chained together using the `this` keyword such that the default constructor calls a specialized constructor.  
+- The specialized constructor should take in the `secret` code and set it to the instance variable's value.  
+- The default constructor should initialize it to `"TOP_SECRET_LAUNCH_CODES"`
+
 
 ### Method: `accessVault`
 
