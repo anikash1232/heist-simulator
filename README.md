@@ -40,7 +40,7 @@ Note: Both fields should be `private`. This ensures that no outside class can re
 ### Constructor
 
 ```java
-public AccessKey()
+public AccessKey();
 ```
 
 - Generate a random number between 100000 and 999999 (inclusive) to simulate a 6-digit access key.
@@ -49,14 +49,14 @@ public AccessKey()
 
 Example:
 ```java
-key = new Random().nextInt(100000, 1000000);
+int key = new Random().nextInt(100000, 1000000);
 ```
 (We use 1000000 as the upper bound because `nextInt()` is exclusive on the upper end.)
 
 ### Method: `isValid()`
 
 ```java
-public boolean isValid()
+public boolean isValid();
 ```
 
 - This method simulates a key check and tracks how many times the key has been used.
@@ -241,7 +241,7 @@ You should have two constructors, chained together using the `this` keyword such
 ### Method: `accessVault`
 
 ```java
-public boolean accessVault(SecurityLayer layer, AccessKey key, String passAttempt, String bioAttempt)
+public boolean accessVault(SecurityLayer layer, AccessKey key, String passAttempt, String bioAttempt);
 ```
 
 This is the method clients use to attempt to unlock the vault.
@@ -270,7 +270,7 @@ You should not expose or modify any internal field directly from outside the cla
 ### Method: `isLocked`
 
 ```java
-public boolean isLocked()
+public boolean isLocked();
 ```
 
 This method returns `true` if the vault is still locked and `false` if it has been successfully unlocked.
@@ -297,32 +297,34 @@ The purpose of this simulation is to show both:
 
 This class does not perform any validation itself—it simply uses the public interfaces of your other classes.
 
-### Step-by-Step Instructions
+# Vault Access Simulation Requirements
 
-1. **Create the Vault system**  
-   Instantiate a `Vault` object. This represents the digital safe you are trying to access.
+You are tasked with simulating a secure vault system that combines multiple layers of authentication and access control. Your solution should include the following components and behaviors:
 
-2. **Set up the SecurityLayer**  
-   Create a `SecurityLayer` object using a passphrase (`"hunter2"`) and a biometric signature (`"retinaScanA"`).  
-   These are the correct credentials.
+- **Vault**  
+  Represents the protected resource. Access to the vault is only possible through an authentication method.
 
-3. **Generate an AccessKey**  
-   Instantiate a new `AccessKey` object. It simulates a digital key that becomes invalid every third use.
+- **SecurityLayer**  
+  Validates credentials.
+    - Correct passphrase: `"hunter2"`
+    - Correct biometric signature: `"retinaScanA"`
 
-4. **First access attempt: fail**  
-   Call `vault.accessVault(...)` using the wrong credentials.  
-   This should return `false`, because authentication fails.  
-   Note that the access key will **not** be used on this attempt.
+- **AccessKey**  
+  Acts as a digital key.
+    - Valid for two consecutive uses
+    - Automatically expires on every third attempt
+    - Resets its validity cycle after expiring
 
-5. **Second access attempt: succeed**  
-   Call `vault.accessVault(...)` again, this time using the correct credentials.  
-   This should return `true`, because:
-- Authentication succeeds, and
-- This is the first use of the access key (which is valid)
+- **Access Attempts**  
+  Every vault access attempt must check:
+    1. Whether the credentials match the `SecurityLayer`
+    2. Whether the `AccessKey` is currently valid
 
-6. **Print the results**  
-   Each call to `accessVault()` should be followed by a `System.out.println(...)` statement showing whether access was granted and what was expected.
-
+- **Program Demonstration**  
+  Your program should clearly show the following scenarios:
+    - An attempt with incorrect credentials should fail, regardless of the `AccessKey` state.
+    - A subsequent attempt with the correct credentials should succeed, provided the `AccessKey` is valid.
+    - The result of each attempt should be printed, showing whether access was granted and why.
 
 ### Expected Output
 
@@ -340,7 +342,7 @@ Attempt 2: Access granted? true (expected: true)
 Let your output guide you!
 
 
-## BONUS OPPORTUNITY: 5pts
+## BONUS OPPORTUNITY: 2pts
 
 ---
 
@@ -383,38 +385,6 @@ If anything fails (e.g. wrong field name or security block), print:
 HackerTool failed.
 ```
 
----
-
-### Step-by-Step Instructions
-
-1. **Import reflection classes**  
-   You’ll need:
-   ```java
-   import java.lang.reflect.Field;
-   ```
-
-2. **Use `Vault.class.getDeclaredField("secret")`**  
-   This retrieves the `Field` object for the private `secret` field.  
-   Be sure the field name is spelled exactly as declared.
-
-3. **Call `setAccessible(true)`**  
-   This disables normal Java access checks, allowing you to read a private field.
-
-4. **Use `field.get(vault)`**  
-   This reads the value of the field from the given `Vault` instance.  
-   You’ll need to **cast it to `String`** since `get()` returns `Object`.
-
-5. **Print the result**  
-   Print the secret using:
-   ```java
-   System.out.println("Hacked Secret: " + stolen);
-   ```
-
-6. **Handle Exceptions**  
-   Wrap everything in a try-catch block. If anything goes wrong, print:
-   ```java
-   System.out.println("HackerTool failed.");
-   ```
 
 ---
 
@@ -445,7 +415,6 @@ HackerTool failed.
       Hacked Secret: TOP_SECRET_LAUNCH_CODES
       ```
 
-## This part is not autograded.  Show it to Prof or TA to get the bonus points.  
 
 ---
 
